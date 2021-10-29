@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MVCController : MVCAbstract
+public class GameController : MVCAbstract
 {
    
     public UIMenuController UIMenu;
