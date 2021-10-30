@@ -42,9 +42,9 @@ public class TetrisGrid : MonoBehaviour
         return grid.isWithinGrid(p);
     }
 
-    bool isWithinGridLimits(Shape s)
+    bool IsWithinGridLimits(Shape s)
     {
-        List<Vector3> globalPositions = s.GetGlobalPositions();
+        List<Vector3> globalPositions = s.GetGlobalCellPositions();
         foreach (Vector3 p in globalPositions)
             if (!grid.isWithinGrid(p))
             {
@@ -55,11 +55,11 @@ public class TetrisGrid : MonoBehaviour
         return true;
     }
 
-    bool isTetrisCollision(Shape s, List<Shape> staticShapes)
+    bool IsTetrisCollision(Shape s, List<Shape> staticShapes)
     {
         foreach (Shape ss in staticShapes)
         {
-            if (CollisionSystem.Collides(s.GetGlobalPositions(), ss.GetGlobalPositions()))
+            if (CollisionSystem.Collides(s.GetGlobalCellPositions(), ss.GetGlobalCellPositions()))
             {
                 return true;
             }
@@ -67,26 +67,31 @@ public class TetrisGrid : MonoBehaviour
         return false;
     }
 
-    public void MoveShape(Shape s, TetrisMoves move, ref bool isSafeMove, List<Shape> staticShapes)
+    public bool MoveShape(Shape s, TetrisMoves move, List<Shape> staticShapes, bool rotate = false)
     {
-        List<Vector3> oldPositions = s.GetGlobalPositions();
-        
-        s.Move(move);
+        List<Vector3> oldPositions = s.GetGlobalCellPositions();
 
-        isSafeMove = isWithinGridLimits(s) && !isTetrisCollision(s, staticShapes);
+        if (!rotate)
+            s.UpdatePosition(move);
+        else
+            s.UpdateRotation(move);
+
+        bool isSafeMove = IsWithinGridLimits(s) && !IsTetrisCollision(s, staticShapes);
 
         if (!isSafeMove)
         {
-                
-            s.MoveToPreviousPosition();
-            return;
+            if (!rotate)
+                s.MoveToPreviousPosition();
+            else
+                s.MoveToPreviousRotation();
+            return false;
         }
 
-        List<Vector3> newPositions = s.GetGlobalPositions();
-      
+        List<Vector3> newPositions = s.GetGlobalCellPositions();
 
         FreeupGridCells(oldPositions);
         OccupyGridCells(newPositions, s.color);
+        return true;
     }
 
     public Vector3 CenterPosition()

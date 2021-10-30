@@ -10,7 +10,20 @@ using System.Runtime;
 public enum TetrisMoves { Down, Right, Left, Forward, Back, Up };
 public class GameManager : MonoBehaviour
 {
-    //make this constant
+    /*
+    //TODO: use dependancy injection instead of singleton
+    private static GameManager _instance = null;
+    public static GameManager Instance
+    {
+        get 
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<GameManager>();
+            return _instance;
+        }   
+    }
+    */
+    //TODO: make this constant
     List<ShapeDescriptor> shapes;
 
     List<Shape> activeShapes;
@@ -21,46 +34,35 @@ public class GameManager : MonoBehaviour
 
     public float everyXseconds = 2;
 
-   
-
     public GameViewManager gameViewManager;
-
-
 
     public Material[] colorMaterials;
     public TetrisGrid tetrisGrid;
 
-
-
-    public Vector3 FrontView()
+     Vector3 FrontView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1*tetrisGrid.Depth);
     }
 
-    public Vector3 RearView()
+     Vector3 RearView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f,  tetrisGrid.Depth);
     }
 
-    public Vector3 RightView()
+     Vector3 RightView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
 
-    public Vector3 LeftView()
+     Vector3 LeftView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(-1*tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
 
 
- 
-
-
     // Start is called before the first frame update
     void Start()
-    {
-
-       
+    {  
         shapes= new List<ShapeDescriptor>();
         shapes.Add(ShapeHolder.ShapeA());
         shapes.Add(ShapeHolder.ShapeB());
@@ -105,35 +107,29 @@ public class GameManager : MonoBehaviour
        
         s.Activate(tetrisGrid.GetUpperCenterCellPosition());
         activeShapes.Add(s);
-        Debug.Log("");
     }
 
-
-
-    public void MoveActiveShapes(int direction)
+    //move all active shapes in grid that did not reach the ground yet.
+    //public because called from input listener
+    public void MoveActiveShapes(int direction, bool rotate = false)
     {
         TetrisMoves move = (TetrisMoves)direction;
 
-        //do not allow this moves
+        //do not allow this moves for now
         if (move == TetrisMoves.Up)
             return;
 
-        List<Shape> clone = Shape.CloneList(activeShapes);
+        List<Shape> _shapes = Shape.CloneList(activeShapes);
 
         bool modified = false;
 
-
         foreach (Shape s in activeShapes)
-        {
-            
-            bool isSafeMove = true;
-            
-            tetrisGrid.MoveShape(s, move, ref isSafeMove, staticShapes);
+        {            
+            bool isSafeMove = tetrisGrid.MoveShape(s, move, staticShapes, rotate);
 
-            if (!isSafeMove && move == TetrisMoves.Down)
+            if (!isSafeMove && move == TetrisMoves.Down && rotate == false)
             {
-
-                clone.Remove(s);
+                _shapes.Remove(s);
                 staticShapes.Add(s);
                 modified = true;
             }
@@ -141,12 +137,10 @@ public class GameManager : MonoBehaviour
 
         if (modified)
         {
-            activeShapes = Shape.CloneList(clone);
+            activeShapes = Shape.CloneList(_shapes);
         }
        
     }
-
-
 
     void UpdateTetrisGrid()
     {
@@ -154,7 +148,6 @@ public class GameManager : MonoBehaviour
 
         if (timer > everyXseconds)
         {
-          //  Debug.Log("activeShapes.Count = " + activeShapes.Count);
             if (activeShapes.Count == 0)
             {
                 InitiateNewShape();
@@ -172,7 +165,5 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateTetrisGrid();
-
-
     }
 }

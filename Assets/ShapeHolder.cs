@@ -10,40 +10,40 @@ public static class ShapeHolder
 
     public static ShapeDescriptor ShapeA()
     {
-        List<Vector3> positions = new List<Vector3>();
-        positions.Add(new Vector3(0,0,0));
-        positions.Add(new Vector3(0, 1, 0));
-        positions.Add(new Vector3(0, 2, 0));
-        positions.Add(new Vector3(0, 3, 0));
+        List<Vector3> localCellPositions = new List<Vector3>();
+        localCellPositions.Add(new Vector3(0,0,0));
+        localCellPositions.Add(new Vector3(0, 1, 0));
+        localCellPositions.Add(new Vector3(0, 2, 0));
+        localCellPositions.Add(new Vector3(0, 3, 0));
 
         Vector3 pivot = new Vector3(0, 2, 0);
 
-        return new ShapeDescriptor(positions, pivot);
+        return new ShapeDescriptor(localCellPositions, pivot);
     }
 
     public static ShapeDescriptor ShapeB()
     {
-        List<Vector3> positions = new List<Vector3>();
-        positions.Add(new Vector3(0, 0, 0));
-        positions.Add(new Vector3(0, 1, 0));
-        positions.Add(new Vector3(0, 2, 0));
-        positions.Add(new Vector3(1, 1, 0));
+        List<Vector3> localCellPositions = new List<Vector3>();
+        localCellPositions.Add(new Vector3(0, 0, 0));
+        localCellPositions.Add(new Vector3(0, 1, 0));
+        localCellPositions.Add(new Vector3(0, 2, 0));
+        localCellPositions.Add(new Vector3(1, 1, 0));
 
         Vector3 pivot = new Vector3(1, 1, 0);
 
-        return new ShapeDescriptor(positions, pivot);
+        return new ShapeDescriptor(localCellPositions, pivot);
     }
 
     public static ShapeDescriptor ShapeC()
     {
-        List<Vector3> positions = new List<Vector3>();
-        positions.Add(new Vector3(0, 0, 0));
-        positions.Add(new Vector3(0, 1, 0));
-        positions.Add(new Vector3(0, 2, 0));
-        positions.Add(new Vector3(1, 0, 0));
+        List<Vector3> localShapePositions = new List<Vector3>();
+        localShapePositions.Add(new Vector3(0, 0, 0));
+        localShapePositions.Add(new Vector3(0, 1, 0));
+        localShapePositions.Add(new Vector3(0, 2, 0));
+        localShapePositions.Add(new Vector3(1, 0, 0));
 
         Vector3 pivot = new Vector3(0, 1, 0);
 
-        return new ShapeDescriptor(positions, pivot);
+        return new ShapeDescriptor(localShapePositions, pivot);
     }
 }

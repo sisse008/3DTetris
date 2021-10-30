@@ -42,16 +42,5 @@ public class ShapeGeneratorController : MonoBehaviour
         s.Activate(grid.GetUpperCenterCellPosition());
         currentActiveCellShape = s;
     }
-
-    public void MoveCell(int direction)
-    {
-        TetrisMoves move = (TetrisMoves)direction;
-        bool isSafeMove = true;
-
-        grid.MoveShape(currentActiveCellShape, move, ref isSafeMove, staticCellShapes);
-
-
-    }
-
  
 }

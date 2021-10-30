@@ -64,16 +64,13 @@
     <Compile Include="Assets\GameViewManager.cs" />
     <Compile Include="Assets\Cell\Cell.cs" />
     <Compile Include="Assets\GameManager.cs" />
-    <Compile Include="Assets\MVCShapeGenerator.cs" />
-    <Compile Include="Assets\MVCAbstract.cs" />
+    <Compile Include="Assets\ShapeGenerator.cs" />
     <Compile Include="Assets\ShapeGeneratorController.cs" />
     <Compile Include="Assets\Grid\TetrisGrid.cs" />
     <Compile Include="Assets\ICameraViewController.cs" />
-    <Compile Include="Assets\GameController.cs" />
     <Compile Include="Assets\WireframeRenderer\Script\StaticWireframeRenderer.cs" />
-    <Compile Include="Assets\PCInputListener.cs" />
+    <Compile Include="Assets\TetrisInputListener.cs" />
     <Compile Include="Assets\Grid\ObjectGrid.cs" />
-    <Compile Include="Assets\DescreteInputListener.cs" />
     <Compile Include="Assets\Shape.cs" />
   </ItemGroup>
   <ItemGroup>
