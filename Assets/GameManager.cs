@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {  
+    {
+       Application.targetFrameRate = 20;
         shapes= new List<ShapeDescriptor>();
         shapes.Add(ShapeHolder.ShapeA());
         shapes.Add(ShapeHolder.ShapeB());
@@ -148,6 +149,7 @@ public class GameManager : MonoBehaviour
 
         if (timer > everyXseconds)
         {
+            Debug.Log("frame rate : " + 1.0f / Time.smoothDeltaTime);
             if (activeShapes.Count == 0)
             {
                 InitiateNewShape();
