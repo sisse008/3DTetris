@@ -69,7 +69,7 @@
     <Compile Include="Assets\Grid\TetrisGrid.cs" />
     <Compile Include="Assets\ICameraViewController.cs" />
     <Compile Include="Assets\WireframeRenderer\Script\StaticWireframeRenderer.cs" />
-    <Compile Include="Assets\TetrisInputListener.cs" />
+    <Compile Include="Assets\TetrisKeysInputListener.cs" />
     <Compile Include="Assets\Grid\ObjectGrid.cs" />
     <Compile Include="Assets\Shape.cs" />
   </ItemGroup>

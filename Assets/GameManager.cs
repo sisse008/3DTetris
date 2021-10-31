@@ -39,32 +39,32 @@ public class GameManager : MonoBehaviour
     public Material[] colorMaterials;
     public TetrisGrid tetrisGrid;
 
-     Vector3 FrontView()
+    Vector3 FrontView()
     {
-        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1*tetrisGrid.Depth);
+        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1 * tetrisGrid.Depth);
     }
 
-     Vector3 RearView()
+    Vector3 RearView()
     {
-        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f,  tetrisGrid.Depth);
+        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, tetrisGrid.Depth);
     }
 
-     Vector3 RightView()
+    Vector3 RightView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
 
-     Vector3 LeftView()
+    Vector3 LeftView()
     {
-        return tetrisGrid.CenterPosition() + new Vector3(-1*tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
+        return tetrisGrid.CenterPosition() + new Vector3(-1 * tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-       Application.targetFrameRate = 20;
-        shapes= new List<ShapeDescriptor>();
+        Application.targetFrameRate = 20;
+        shapes = new List<ShapeDescriptor>();
         shapes.Add(ShapeHolder.ShapeA());
         shapes.Add(ShapeHolder.ShapeB());
         shapes.Add(ShapeHolder.ShapeC());
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     }
 
     void StartNewGame()
-    { 
+    {
         tetrisGrid.InitGrid();
 
         gameViewManager.Initiate(FrontView(), RightView(), RearView(), LeftView(), tetrisGrid.CenterPosition());
@@ -105,14 +105,48 @@ public class GameManager : MonoBehaviour
         Material material = GetRandomMaterial();
 
         Shape s = new Shape(material, type);
-       
+
         s.Activate(tetrisGrid.GetUpperCenterCellPosition());
         activeShapes.Add(s);
     }
 
+    public void RotateShapeClockwise()
+    {
+        MoveActiveShapes((int)TetrisMoves.Left, true);
+    }
+
+    public void RotateShapeCounterClockwise()
+    {
+        MoveActiveShapes((int)TetrisMoves.Right, true);
+    }
+
+    public void TransformShapeRight()
+    {
+        MoveActiveShapes((int)TetrisMoves.Right);
+    }
+    public void TransformShapeLeft()
+    {
+        MoveActiveShapes((int)TetrisMoves.Left);
+    }
+
+    public void TransformShapeDown()
+    {
+        MoveActiveShapes((int)TetrisMoves.Down);
+    }
+
+    public void TransformShapeFar()
+    {
+        MoveActiveShapes((int)TetrisMoves.Forward);
+    }
+
+    public void TransformShapeNear()
+    {
+        MoveActiveShapes((int)TetrisMoves.Back);
+    }
+
     //move all active shapes in grid that did not reach the ground yet.
     //public because called from input listener
-    public void MoveActiveShapes(int direction, bool rotate = false)
+    private void MoveActiveShapes(int direction, bool rotate = false)
     {
         TetrisMoves move = (TetrisMoves)direction;
 
