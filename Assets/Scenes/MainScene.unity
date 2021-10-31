@@ -982,8 +982,12 @@ MonoBehaviour:
     keyCodes: 61000000
   MoveRight:
     keyCodes: 64000000
-  MoveDown:
+  MoveFar:
+    keyCodes: 77000000
+  MoveNear:
     keyCodes: 73000000
+  MoveDown:
+    keyCodes: 00000000
   RotateClock:
     keyCodes: 14010000
   RotateCounterClock:

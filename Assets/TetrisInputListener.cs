@@ -25,6 +25,8 @@ public class TetrisInputListener : MonoBehaviour
 {
     public Keys MoveLeft;
     public Keys MoveRight;
+    public Keys MoveFar;
+    public Keys MoveNear;
     public Keys MoveDown;
     public Keys RotateClock;
     public Keys RotateCounterClock;
@@ -62,6 +64,19 @@ public class TetrisInputListener : MonoBehaviour
         if (MoveRight.isPressed())
         {
             gameManager.MoveActiveShapes((int)TetrisMoves.Right);
+            return;
+
+        }
+
+        if (MoveFar.isPressed())
+        {
+            gameManager.MoveActiveShapes((int)TetrisMoves.Forward);
+            return;
+        }
+
+        if (MoveNear.isPressed())
+        {
+            gameManager.MoveActiveShapes((int)TetrisMoves.Back);
             return;
 
         }
