@@ -28,30 +28,26 @@ public class TetrisGrid : MonoBehaviour
             for (int j = 0; j < width; j++)
                 for (int z = 0; z < depth; z++)
                 {
-                    // position = (x,y,z) = (width, height, depth) = (j,i,z)
-                    Cell cell = Instantiate(cellPrefab, new Vector3(j, i, z), Quaternion.identity, transform);
+                    Cell cell = Instantiate(cellPrefab, new Vector3(j, i, z) + transform.position, Quaternion.identity, transform);
                     cell.name = "( " + i.ToString() + " , " + j.ToString() + " , " + z.ToString() + " )";
-                    //IS IT PASSES BY REFERENCE? yes
                     grid.UpdateGridMatrix(i, j, z, cell);
                 }
-
     }
 
-    public bool isWithinGridLimits(Vector3 p)
+    public bool IsWithinGridLimits(Vector3 p)
     {
-        return grid.isWithinGrid(p);
+        return grid.IsWithinGrid(p);
     }
 
     bool IsWithinGridLimits(Shape s)
     {
         List<Vector3> globalPositions = s.GetGlobalCellPositions();
         foreach (Vector3 p in globalPositions)
-            if (!grid.isWithinGrid(p))
+            if (!grid.IsWithinGrid(p))
             {
                 //Debug.Log("move = " + p + "  is not safe move");
                 return false;
             }
-
         return true;
     }
 
@@ -86,9 +82,7 @@ public class TetrisGrid : MonoBehaviour
                 s.MoveToPreviousRotation();
             return false;
         }
-
         List<Vector3> newPositions = s.GetGlobalCellPositions();
-
         FreeupGridCells(oldPositions);
         OccupyGridCells(newPositions, s.color);
         return true;
@@ -98,25 +92,21 @@ public class TetrisGrid : MonoBehaviour
     {
         return new Vector3(Mathf.Round(width / 2), Mathf.Round(height) / 2, Mathf.Round(depth / 2));
     }
+
     public Vector3 GetUpperCenterCellPosition()
     {
         return new Vector3( Mathf.Round(width / 2), height - 1, Mathf.Round(depth / 2));
     }
 
-
     public void FreeupGridCells(List<Vector3> cellPositions)
     {
         foreach (Vector3 pos in cellPositions)
         {
-
             Cell cell = grid.getCell(pos);
             if(cell != null)
                 cell.SetOccupied(false);
         }
     }
-
-
-   
 
    public void OccupyGridCells(List<Vector3> cellPositions, Material color)
    {

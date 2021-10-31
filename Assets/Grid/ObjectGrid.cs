@@ -24,7 +24,6 @@ public class ObjectGrid<T> where T : MonoBehaviour
         this.depth = depth;
 
         gridMatrix = new T[height, width, depth];     
-
     }
 
     public void UpdateGridMatrix(int h, int w, int d, T cell)
@@ -37,10 +36,8 @@ public class ObjectGrid<T> where T : MonoBehaviour
         return gridMatrix[h,w,d];
     }
 
-    public bool isWithinGrid(Vector3 p)
+    public bool IsWithinGrid(Vector3 p)
     {
-       
-
         if ((p.y < 0) || (p.y >= height))
             return false;
         if ((p.x < 0) || (p.x >= width))
@@ -53,10 +50,8 @@ public class ObjectGrid<T> where T : MonoBehaviour
 
     public T getCell(Vector3 p)
     {
-
-        if (!isWithinGrid(p))
+        if (!IsWithinGrid(p))
             return null;
-
         
         return gridMatrix[(int)p.y, (int)p.x, (int)p.z];
     }

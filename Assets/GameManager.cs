@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
 
     public float everyXseconds = 2;
 
-    public GameViewManager gameViewManager;
-
     public Material[] colorMaterials;
     public TetrisGrid tetrisGrid;
 
@@ -63,7 +61,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 20;
+        //dont change frame rate with ARFoundation
+      //  Application.targetFrameRate = 20;
         shapes = new List<ShapeDescriptor>();
         shapes.Add(ShapeHolder.ShapeA());
         shapes.Add(ShapeHolder.ShapeB());
@@ -88,11 +87,6 @@ public class GameManager : MonoBehaviour
     void StartNewGame()
     {
         tetrisGrid.InitGrid();
-
-        gameViewManager.Initiate(FrontView(), RightView(), RearView(), LeftView(), tetrisGrid.CenterPosition());
-
-        gameViewManager.SetView(tetrisGrid.CenterPosition(), FrontView());
-
     }
 
     void InitiateNewShape()

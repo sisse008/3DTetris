@@ -6,8 +6,7 @@ public class Cell : MonoBehaviour
 {
     //is ocupide
     public bool isOccupied { get; private set; }
-   
-
+  
     //set colure
     Material _default;
 
