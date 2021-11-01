@@ -71,13 +71,13 @@ public class TetrisKeysInputListener : MonoBehaviour
 
         if (RotateClockKey.isPressed())
         {
-            gameManager.RotateShapeClockwise();
+            gameManager.RotateShapeClockwiseZAxis();
             return;
         }
 
         if (RotateCounterClockKey.isPressed())
         {
-            gameManager.RotateShapeCounterClockwise();
+            gameManager.RotateShapeCounterClockwiseZAxis();
             return;
         }
 

@@ -7,7 +7,7 @@ using System.Runtime;
 
 
 
-public enum TetrisMoves { Down, Right, Left, Forward, Back, Up };
+public enum TetrisMoves { Down, Right, Left, Forward, Back, Up, Xclock, XcounterClock, Yclock, YcounterClock, Zclock, ZcounterClock};
 public class GameManager : MonoBehaviour
 {
     /*
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         return tetrisGrid.CenterPosition() + new Vector3(-1 * tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
 */
+
     void Start()
     {
         //dont change frame rate with ARFoundation
@@ -102,14 +103,23 @@ public class GameManager : MonoBehaviour
         activeShapes.Add(s);
     }
 
-    public void RotateShapeClockwise()
+    public void RotateShapeClockwiseZAxis()
     {
         MoveActiveShapes((int)TetrisMoves.Left, true);
     }
 
-    public void RotateShapeCounterClockwise()
+    public void RotateShapeCounterClockwiseZAxis()
     {
         MoveActiveShapes((int)TetrisMoves.Right, true);
+    }
+
+    public void RotateShapeClockwiseXAxis()
+    {
+        MoveActiveShapes((int)TetrisMoves.Back, true);
+    }
+    public void RotateShapeCounterClockwiseXAxis()
+    {
+        MoveActiveShapes((int)TetrisMoves.Forward, true);
     }
 
     public void TransformShapeRight()

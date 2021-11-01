@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+public enum Axis
+{
+    X,
+    Y,
+    Z
+}
 public class ShapeDescriptor
 {
     public List<Vector3> positions { get; private set; }
@@ -42,13 +47,11 @@ public class Shape
 
     public Shape(Material color, ShapeDescriptor discriptor)
     {
-
         shapePositions = discriptor.positions;
         this.localPivot = discriptor.pivot;
         this.color = color;
        
-        active = false;
-      
+        active = false;   
     }
     public Shape Copy()
     {
@@ -113,16 +116,29 @@ public class Shape
         shapePositions = CloneListGeneric(previousShapePositions);
     }
 
-    private void Rotate(bool counterClokwise = false)
+    private void Rotate(Axis axis, bool counterClokwise = false)
     {
         //each vector is a column (left to right) in the matrix
         Vector3[] affineTransformation;
-        
-        if(counterClokwise)
-            affineTransformation = new Vector3[] { new Vector3(0,0,1), new Vector3(0,1,0), new Vector3(-1,0,0) };
+
+        if (counterClokwise)
+        {
+            if(axis == Axis.Y)
+                affineTransformation = new Vector3[] { new Vector3(0, 0, 1), new Vector3(0, 1, 0), new Vector3(-1, 0, 0) };
+            else if(axis ==  Axis.Z) //around z axis
+                affineTransformation = new Vector3[] { new Vector3(0, -1, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1) };
+            else // X axis
+                affineTransformation = new Vector3[] { new Vector3(1, 0, 0), new Vector3(0, 0, -1), new Vector3(0, 1, 0) };
+        }
         else
-            affineTransformation = new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 1, 0), new Vector3(1, 0, 0) };
-       
+        {
+            if (axis == Axis.Y)
+                affineTransformation = new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 1, 0), new Vector3(1, 0, 0) };
+            else if (axis == Axis.Z) //around z axis
+                affineTransformation = new Vector3[] { new Vector3(0, 1, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1) };
+            else //X axis
+                affineTransformation = new Vector3[] { new Vector3(1, 0, 0), new Vector3(0, 0, 1), new Vector3(0, -1, 0) };
+        }
 
         previousShapePositions = CloneListGeneric(shapePositions);
 
@@ -140,13 +156,17 @@ public class Shape
         shapePositions = newCellPositions;
     }
 
-    //rotate shape clockwise or counter clockwise
+    //rotate shape clockwise or counter clockwise arround y axis
     public void UpdateRotation(TetrisMoves direction)
     {
         if (direction == TetrisMoves.Right)
-             Rotate(true);
+            Rotate(Axis.Z, true);
         else if (direction == TetrisMoves.Left)
-             Rotate(false);
+            Rotate(Axis.Z, false);
+        else if (direction == TetrisMoves.Back)
+            Rotate(Axis.X, false);
+        else if (direction == TetrisMoves.Forward)
+            Rotate(Axis.X, true);
     }
 
     public void UpdatePosition(TetrisMoves move)
