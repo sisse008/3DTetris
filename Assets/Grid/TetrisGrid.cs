@@ -7,28 +7,34 @@ using UnityEngine;
 public class TetrisGrid : MonoBehaviour
 {
     [SerializeField]
-    int height, width, depth;
+    int gridHeight, gridWidth, gridDepth;
     [SerializeField]
     Cell cellPrefab;
+    [SerializeField]
+    float cellHeight, cellWidth, cellDepth;
 
 
     //not inhereting from ObjectGrid because I want Grid to be gameobject in scene (no constructor)
     ObjectGrid<Cell> grid;
 
-
-
-    public int Height { get { return height; } }
-    public int Width { get { return width; } }
-    public int Depth { get { return depth; } }
+    void Awake()
+    {
+        if (cellPrefab)
+        {
+            cellHeight = cellPrefab.transform.localScale.y;
+            cellWidth = cellPrefab.transform.localScale.x;
+            cellDepth = cellPrefab.transform.localScale.z;
+        }
+    }
 
     public void InitGrid()
     {
-        grid = new ObjectGrid<Cell>(height, width, depth, cellPrefab);
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                for (int z = 0; z < depth; z++)
+        grid = new ObjectGrid<Cell>(gridHeight, gridWidth, gridDepth, cellPrefab);
+        for (int i = 0; i < gridHeight; i++)
+            for (int j = 0; j < gridWidth; j++)
+                for (int z = 0; z < gridDepth; z++)
                 {
-                    Cell cell = Instantiate(cellPrefab, new Vector3(j, i, z) + transform.position, Quaternion.identity, transform);
+                    Cell cell = Instantiate(cellPrefab, new Vector3(j*cellWidth, i*cellHeight, z*cellDepth) + transform.position, Quaternion.identity, transform);
                     cell.name = "( " + i.ToString() + " , " + j.ToString() + " , " + z.ToString() + " )";
                     grid.UpdateGridMatrix(i, j, z, cell);
                 }
@@ -90,12 +96,12 @@ public class TetrisGrid : MonoBehaviour
 
     public Vector3 CenterPosition()
     {
-        return new Vector3(Mathf.Round(width / 2), Mathf.Round(height) / 2, Mathf.Round(depth / 2));
+        return new Vector3(Mathf.Round(gridWidth / 2), Mathf.Round(gridHeight) / 2, Mathf.Round(gridDepth / 2));
     }
 
     public Vector3 GetUpperCenterCellPosition()
     {
-        return new Vector3( Mathf.Round(width / 2), height - 1, Mathf.Round(depth / 2));
+        return new Vector3( Mathf.Round(gridWidth / 2), gridHeight - 1, Mathf.Round(gridDepth / 2));
     }
 
     public void FreeupGridCells(List<Vector3> cellPositions)

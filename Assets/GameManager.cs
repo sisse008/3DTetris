@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public Material[] colorMaterials;
     public TetrisGrid tetrisGrid;
-
+/*
     Vector3 FrontView()
     {
         return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1 * tetrisGrid.Depth);
@@ -56,9 +56,7 @@ public class GameManager : MonoBehaviour
     {
         return tetrisGrid.CenterPosition() + new Vector3(-1 * tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
     }
-
-
-    // Start is called before the first frame update
+*/
     void Start()
     {
         //dont change frame rate with ARFoundation
