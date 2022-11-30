@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 4290932236
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: tetris
+      Dependencies: {}
+    Info_1:
+      Name: mainscene
+      Dependencies: {}

@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 2473420330
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: abd6a4b9bf2c6f8c22519c67d5715823
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 483b080cd7d53847ba0a00f25e3d14a4
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: e99638c3573f1724b8b0b1f0a67e098c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a2d70ac4dbd7d0340a754b64e94bc234, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Prefabs/cell.prefab
+- Assets/Prefabs/grid.prefab
+Dependencies: []

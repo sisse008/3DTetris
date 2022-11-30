@@ -17,14 +17,13 @@ public class ShapeGeneratorController : MonoBehaviour
     void Start()
     {
         staticCellShapes = new List<Shape>();
-        grid.InitGrid();
+       // grid.InitGrid();
 
-        InitiateNewCellShape();
+       // InitiateNewCellShape();
     }
 
     public void SelectCellPosition()
     {
-       
         staticCellShapes.Add(currentActiveCellShape.Copy());
         currentActiveCellShape = null;
 

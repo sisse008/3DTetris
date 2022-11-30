@@ -8,27 +8,21 @@ public class TetrisGrid : MonoBehaviour
 {
     [SerializeField]
     int gridHeight, gridWidth, gridDepth;
-    [SerializeField]
-    Cell cellPrefab;
+   
     [SerializeField]
     float cellHeight, cellWidth, cellDepth;
 
 
-    //not inhereting from ObjectGrid because I want Grid to be gameobject in scene (no constructor)
+    //not inhereting from ObjectGrid because I want Grid to be gameobject in scene (monobehaviour. no constructor)
     ObjectGrid<Cell> grid;
 
-    void Awake()
-    {
-        if (cellPrefab)
-        {
-            cellHeight = cellPrefab.transform.localScale.y;
-            cellWidth = cellPrefab.transform.localScale.x;
-            cellDepth = cellPrefab.transform.localScale.z;
-        }
-    }
 
-    public void InitGrid()
+    public void InitGrid(Cell cellPrefab)
     {
+        cellHeight = cellPrefab.transform.localScale.y;
+        cellWidth = cellPrefab.transform.localScale.x;
+        cellDepth = cellPrefab.transform.localScale.z;
+
         grid = new ObjectGrid<Cell>(gridHeight, gridWidth, gridDepth, cellPrefab);
         for (int i = 0; i < gridHeight; i++)
             for (int j = 0; j < gridWidth; j++)

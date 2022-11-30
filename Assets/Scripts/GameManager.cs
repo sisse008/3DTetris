@@ -35,28 +35,31 @@ public class GameManager : MonoBehaviour
     public float everyXseconds = 2;
 
     public Material[] colorMaterials;
-    public TetrisGrid tetrisGrid;
-/*
-    Vector3 FrontView()
-    {
-        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1 * tetrisGrid.Depth);
-    }
+    [SerializeField] Cell cellPrefab;
+    [SerializeField] TetrisGrid tetrisGridPrefab;
+    [SerializeField] TetrisGrid tetrisGrid;
+    public AssetBundleLoader assetBundleLoader;
+    /*
+        Vector3 FrontView()
+        {
+            return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, -1 * tetrisGrid.Depth);
+        }
 
-    Vector3 RearView()
-    {
-        return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, tetrisGrid.Depth);
-    }
+        Vector3 RearView()
+        {
+            return tetrisGrid.CenterPosition() + new Vector3(0, tetrisGrid.Height * 0.8f, tetrisGrid.Depth);
+        }
 
-    Vector3 RightView()
-    {
-        return tetrisGrid.CenterPosition() + new Vector3(tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
-    }
+        Vector3 RightView()
+        {
+            return tetrisGrid.CenterPosition() + new Vector3(tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
+        }
 
-    Vector3 LeftView()
-    {
-        return tetrisGrid.CenterPosition() + new Vector3(-1 * tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
-    }
-*/
+        Vector3 LeftView()
+        {
+            return tetrisGrid.CenterPosition() + new Vector3(-1 * tetrisGrid.Width, tetrisGrid.Height * 0.8f, 0);
+        }
+    */
 
     void Start()
     {
@@ -71,7 +74,42 @@ public class GameManager : MonoBehaviour
 
         activeShapes = new List<Shape>();
 
-        StartNewGame();
+        StartCoroutine(LoadGameAssetsAndInitGameAsync());
+       // LoadGameAssetsAndInitGame();
+    }
+
+    IEnumerator LoadGameAssetsAndInitGameAsync()
+    {
+        // yield return assetBundleLoader.LoadAssetsFromDiskAsync("tetris", OnFinsihedLoadingAssets);  
+        yield return assetBundleLoader.LoadWebRequest(OnFinsihedLoadingAssets);
+    }
+
+    private void OnFinsihedLoadingAssets(GameObject[] objs)
+    {
+        foreach (GameObject obj in objs)
+        {
+            if (cellPrefab == null) cellPrefab = obj.GetComponent<Cell>();
+            if (tetrisGridPrefab == null) tetrisGridPrefab = obj.GetComponent<TetrisGrid>();
+            if (cellPrefab && tetrisGridPrefab)
+            {
+                StartNewGame();
+                break;
+            }
+        }
+    }
+    void LoadGameAssetsAndInitGame()
+    {
+        try
+        {
+            cellPrefab = assetBundleLoader.LoadAssetFromDisk("tetris", "cell").GetComponent<Cell>();
+            tetrisGridPrefab = assetBundleLoader.LoadAssetFromDisk("tetris", "grid").GetComponent<TetrisGrid>();
+            StartNewGame();
+        }
+        catch
+        {
+            Debug.LogError(">>> GameManager.LoadGameAssetsAndInitGame: was not abble to load assests from asset bundle. Quitting game");
+        }
+       
     }
 
     Material GetRandomMaterial()
@@ -85,7 +123,8 @@ public class GameManager : MonoBehaviour
 
     void StartNewGame()
     {
-        tetrisGrid.InitGrid();
+        tetrisGrid = Instantiate(tetrisGridPrefab);
+        tetrisGrid.InitGrid(cellPrefab);
     }
 
     void InitiateNewShape()
@@ -185,7 +224,7 @@ public class GameManager : MonoBehaviour
 
         if (timer > everyXseconds)
         {
-            Debug.Log("frame rate : " + 1.0f / Time.smoothDeltaTime);
+           // Debug.Log("frame rate : " + 1.0f / Time.smoothDeltaTime);
             if (activeShapes.Count == 0)
             {
                 InitiateNewShape();
@@ -202,6 +241,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateTetrisGrid();
+        if(tetrisGrid)
+            UpdateTetrisGrid();
     }
 }
